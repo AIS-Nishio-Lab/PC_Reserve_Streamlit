@@ -7,6 +7,7 @@ import time
 import yaml
 from yaml.loader import SafeLoader
 import streamlit_authenticator as stauth
+from PIL
 
 def show_cancel():
     name = st.selectbox(
@@ -93,6 +94,12 @@ def login():
     return authentication_status, username
                 
 if __name__ == "__main__":
+    img_icon = Image.open("icon.jpg")
+    st.set_page_config(
+        page_title="PC Reserve App",
+        page_icon=img_icon,
+        layout="wide"
+    )
     st.title("PC Reservation System")
     is_logined, username = login()
     if is_logined:
