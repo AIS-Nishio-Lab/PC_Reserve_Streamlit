@@ -1,0 +1,17 @@
+credentials:
+  usernames:
+    User:
+      email: aaa@aaa.aaa
+      name: User
+      password: $2b$12$xSh19OxhPd.Zrd0TCLBhqejrBFIdzldpWrbXPKE6FWEmWR/A8jJ1y
+    Admin:
+      email: ccc@ccc.ccc
+      name: Admin
+      password: $2b$12$zip7whL/tsTCeHfaYS4REOndfCjYUr8lzpILSS.2qCS3uERSFz7qS
+cookie:
+  expiry_days: 30
+  key: some_signature_key # Must be string
+  name: some_cookie_name
+preauthorized:
+  emails:
+  - bbb@bbb.bbb
