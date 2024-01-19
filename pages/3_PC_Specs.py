@@ -5,6 +5,7 @@ from st_mui_dialog import st_mui_dialog
 import pandas as pd
 import yaml
 from yaml.loader import SafeLoader
+from PIL import Image
 
 def login():
     """ログイン処理
@@ -54,6 +55,12 @@ def edit_pc_specs():
         st.success("Save Success!")
 
 if __name__ == '__main__':
+    img_icon = Image.open("icon.jpg")
+    st.set_page_config(
+        page_title="PC Reserve App",
+        page_icon=img_icon,
+        layout="wide"
+    )
     st.title("PC Reserve System") # タイトル
     is_logined, username = login()
     if is_logined:
