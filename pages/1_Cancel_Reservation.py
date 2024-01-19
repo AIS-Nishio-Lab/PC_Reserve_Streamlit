@@ -7,7 +7,7 @@ import time
 import yaml
 from yaml.loader import SafeLoader
 import streamlit_authenticator as stauth
-from PIL
+from PIL import Image
 
 def show_cancel():
     name = st.selectbox(
