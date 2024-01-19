@@ -4,8 +4,7 @@ if __name__ == "__main__":
     img_icon = Image.open("icon.jpg")
     st.set_page_config(
         page_title="PC Reserve App",
-        page_icon=img_icon,
-        layout="wide"
+        page_icon=img_icon
     )
     st.header("How to Use the PC Reservation System")
     st.markdown("## 1. Reserve PC")
