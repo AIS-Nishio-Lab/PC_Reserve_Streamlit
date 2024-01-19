@@ -6,3 +6,4 @@ streamlit-calendar==1.1.0
 streamlit-modal==0.1.0
 streamlit-nested-layout==0.1.1
 pandas
+pillow
