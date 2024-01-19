@@ -7,6 +7,7 @@ import datetime
 import yaml
 from yaml.loader import SafeLoader
 import time
+from PIL import Image
 
 def login():
     """ログイン処理
@@ -181,6 +182,12 @@ def show_calendar():
 
     
 if __name__ == '__main__':
+    img_icon = Image.open("icon.jpg")
+    st.set_page_config(
+        page_title="PC Reserve App",
+        page_icon=img_icon,
+        layout="wide"
+    )
     st.title("PC Reserve System") # タイトル
     is_logined, username = login()
     if is_logined:
