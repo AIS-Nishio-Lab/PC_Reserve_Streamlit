@@ -43,8 +43,8 @@ def now_using():
     """
     st.header("Current Using PC")
     df_reserve = pd.read_csv("pc_reserves.csv")
-    df_reserve["Start"] = pd.to_datetime(df_reserve["Start"])
-    df_reserve["End"] = pd.to_datetime(df_reserve["End"])
+    df_reserve["Start"] = pd.to_datetime(df_reserve["Start"]).dt.tz_localize('Asia/Tokyo')
+    df_reserve["End"] = pd.to_datetime(df_reserve["End"]).dt.tz_localize('Asia/Tokyo')
     dt_now = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
     current_using = df_reserve[(df_reserve["Start"] <= dt_now) & (dt_now <= df_reserve["End"])]
     df_pcs_name = pd.read_csv("pc_specs.csv")["PC"].values
