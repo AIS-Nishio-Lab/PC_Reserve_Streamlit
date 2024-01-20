@@ -3,6 +3,7 @@ import pandas as pd
 import streamlit_nested_layout
 from st_mui_dialog import st_mui_dialog
 import datetime
+from zoneinfo import ZoneInfo
 import time
 import yaml
 from yaml.loader import SafeLoader
@@ -21,9 +22,9 @@ def show_cancel():
         return
     # pc_reserves.csvの読み込み
     df_reserve = pd.read_csv("pc_reserves.csv")
-    df_reserve["Start"] = pd.to_datetime(df_reserve["Start"])
-    df_reserve["End"] = pd.to_datetime(df_reserve["End"])
-    dt_now = datetime.datetime.now()
+    df_reserve["Start"] = pd.to_datetime(df_reserve["Start"]).dt.tz_localize('Asia/Tokyo')
+    df_reserve["End"] = pd.to_datetime(df_reserve["End"]).dt.tz_localize('Asia/Tokyo')
+    dt_now = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
     # 予約終了日時が現在日時よりも前の予約情報を削除
     df_reserve = df_reserve[df_reserve["End"] >= dt_now]
     # その予約者の予約情報のみに絞り込み
@@ -41,8 +42,8 @@ def show_cancel():
         date_end = row["End"]
         with st.expander('### Reservation ' + str(i + 1), expanded=True):
             st.markdown('PC: ' + pc_name)
-            st.markdown('Start: ' + str(date_start))
-            st.markdown('End: ' + str(date_end))
+            st.markdown('Start: ' + str(date_start)[:-9])
+            st.markdown('End: ' + str(date_end)[:-9])
             # is_click = st.dialog("Clear with close", close_on_submit=False, clear_on_close=True)#st.button("Cancel", key=i)
             is_click = st_mui_dialog("Cancel Reservation", "Are you sure to cancel this reservation?", key=i, button_txt="Cancel Reservation")
             if is_click:
