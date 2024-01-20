@@ -209,5 +209,4 @@ if __name__ == '__main__':
         now_using()
         reserve_form()
         show_calendar()
-        get_pc_reserves()
     
