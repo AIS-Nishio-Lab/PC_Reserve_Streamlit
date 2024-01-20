@@ -57,6 +57,7 @@ def edit_pc_specs():
 def get_pc_reserves():
     """予約情報csvをダウンロードする
     """
+    st.header("Download PC Reserve Info")
     # ダウンロードボタンを押したら、pc_reserves.csvをダウンロードする
     df_reserve = pd.read_csv("pc_reserves.csv")
     df_reserve.to_csv("pc_reserves.csv", index=False)
