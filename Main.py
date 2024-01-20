@@ -182,6 +182,21 @@ def show_calendar():
     calendar(calendar_events)
 
     
+def get_pc_reserves():
+    """予約情報csvをダウンロードする
+    """
+    # ダウンロードボタンを押したら、pc_reserves.csvをダウンロードする
+    df_reserve = pd.read_csv("pc_reserves.csv")
+    df_reserve.to_csv("pc_reserves.csv", index=False)
+    with open("pc_reserves.csv", "rb") as file:
+        csv = file.read()
+    st.download_button(
+        label="Download csv",
+        data=csv,
+        file_name="pc_reserves.csv",
+        mime="text/csv"
+    )
+    
 if __name__ == '__main__':
     img_icon = Image.open("icon.jpg")
     st.set_page_config(
@@ -194,4 +209,5 @@ if __name__ == '__main__':
         now_using()
         reserve_form()
         show_calendar()
+        get_pc_reserves()
     
