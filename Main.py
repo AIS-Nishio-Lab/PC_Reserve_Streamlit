@@ -176,8 +176,8 @@ def show_calendar():
         end_time = row["End"].strftime("%I:%M%p")
         str_time = start_time + " - " + end_time
         temp = {"title": str_time +" " +row["PC"] + " " + row["User"],
-                "start": row["Start"].tz_localize('Asia/Tokyo').strftime("%Y-%m-%d"),
-                "end": row["End"].tz_localize('Asia/Tokyo').strftime("%Y-%m-%d")}
+                "start": row["Start"].tz_localize('Asia/Tokyo').strftime("%Y-%m-%dT%H:%M:%S"),
+                "end": row["End"].tz_localize('Asia/Tokyo').strftime("%Y-%m-%dT%H:%M:%S")}
         calendar_events.append(temp)
     calendar(calendar_events)
 
