@@ -54,6 +54,21 @@ def edit_pc_specs():
         edited.to_csv("pc_specs.csv", index=False)
         st.success("Save Success!")
 
+def get_pc_reserves():
+    """予約情報csvをダウンロードする
+    """
+    # ダウンロードボタンを押したら、pc_reserves.csvをダウンロードする
+    df_reserve = pd.read_csv("pc_reserves.csv")
+    df_reserve.to_csv("pc_reserves.csv", index=False)
+    with open("pc_reserves.csv", "rb") as file:
+        csv = file.read()
+    st.download_button(
+        label="Download csv",
+        data=csv,
+        file_name="pc_reserves.csv",
+        mime="text/csv"
+    )
+    
 if __name__ == '__main__':
     img_icon = Image.open("icon.jpg")
     st.set_page_config(
@@ -67,3 +82,4 @@ if __name__ == '__main__':
     if is_logined and username=="admin":
         st.header("This section is only for admin")
         edit_pc_specs()
+        get_pc_reserves()
