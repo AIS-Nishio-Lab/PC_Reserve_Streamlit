@@ -65,8 +65,8 @@ def cancel(row):
     df_reserve = df_reserve[~((df_reserve["PC"] == row["PC"]) & (df_reserve["User"] == row["User"]) & (df_reserve["Start"] == row["Start"]) & (df_reserve["End"] == row["End"]))]
     df_reserve = df_reserve.reset_index(drop=True)
     df_reserve = df_reserve.drop("Unnamed: 0", axis=1)
-    df_reserve["Start"] = df_reserve["Start"].dt.tz_convert(None)
-    df_reserve["End"] = df_reserve["End"].dt.tz_convert(None)
+    df_reserve["Start"] = df_reserve["Start"].dt.tz_localize(None)
+    df_reserve["End"] = df_reserve["End"].dt.tz_localize(None)
     df_reserve.to_csv("pc_reserves.csv")
     st.success("Successfully Canceled.")
 
