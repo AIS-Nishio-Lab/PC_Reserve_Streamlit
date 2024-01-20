@@ -63,7 +63,7 @@ def get_pc_reserves():
     with open("pc_reserves.csv", "rb") as file:
         csv = file.read()
     st.download_button(
-        label="Download csv",
+        label="Download PC Reserve Info csv",
         data=csv,
         file_name="pc_reserves.csv",
         mime="text/csv"
