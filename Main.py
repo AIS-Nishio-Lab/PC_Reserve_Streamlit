@@ -172,8 +172,8 @@ def show_calendar():
     calendar_events = []
     for index, row in df_reserve.iterrows():
         # スタートの時刻とエンドの時刻をam、pm形式にして、3:00pm - 5:00pmのように表示する
-        start_time = row["Start"].strftime("%I:%M%p")
-        end_time = row["End"].strftime("%I:%M%p")
+        start_time = row["Start"].strftime("%I%p")
+        end_time = row["End"].strftime("%I%p")
         str_time = start_time + " - " + end_time
         temp = {"title": str_time +" " +row["PC"] + " " + row["User"],
                 "start": row["Start"].tz_localize('Asia/Tokyo').strftime("%Y-%m-%dT%H:%M:%S"),
