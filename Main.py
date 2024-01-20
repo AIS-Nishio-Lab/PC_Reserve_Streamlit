@@ -4,6 +4,7 @@ from streamlit_calendar import calendar
 from st_mui_dialog import st_mui_dialog
 import pandas as pd
 import datetime
+from zoneinfo import ZoneInfo
 import yaml
 from yaml.loader import SafeLoader
 import time
@@ -44,7 +45,7 @@ def now_using():
     df_reserve = pd.read_csv("pc_reserves.csv")
     df_reserve["Start"] = pd.to_datetime(df_reserve["Start"])
     df_reserve["End"] = pd.to_datetime(df_reserve["End"])
-    dt_now = datetime.datetime.now()
+    dt_now = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
     current_using = df_reserve[(df_reserve["Start"] <= dt_now) & (dt_now <= df_reserve["End"])]
     df_pcs_name = pd.read_csv("pc_specs.csv")["PC"].values
     table_list = []
@@ -76,7 +77,7 @@ def reserve_form():
     df_pcs_name = pd.read_csv("pc_specs.csv")["PC"].values
     pc_name = st.selectbox('Input PC name', df_pcs_name,
                            index=None, placeholder="Select PC")
-    dt_now = datetime.datetime.now()
+    dt_now = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
     min_date = dt_now - datetime.timedelta(days=1)
     max_date = dt_now + datetime.timedelta(days=30)
     if name=="Nishio":
