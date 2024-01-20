@@ -35,6 +35,8 @@ def show_cancel():
         return
     st.markdown('## Reservations')
     df_reserve = df_reserve.reset_index(drop=True)
+    df_reserve["Start"] = df_reserve["Start"].dt.tz_convert(None)
+    df_reserve["End"] = df_reserve["End"].dt.tz_convert(None)
     for i in range(len(df_reserve)):
         row = df_reserve.loc[i]
         pc_name = row["PC"]
@@ -42,8 +44,8 @@ def show_cancel():
         date_end = row["End"]
         with st.expander('### Reservation ' + str(i + 1), expanded=True):
             st.markdown('PC: ' + pc_name)
-            st.markdown('Start: ' + str(date_start)[:-9])
-            st.markdown('End: ' + str(date_end)[:-9])
+            st.markdown('Start: ' + str(date_start))
+            st.markdown('End: ' + str(date_end))
             # is_click = st.dialog("Clear with close", close_on_submit=False, clear_on_close=True)#st.button("Cancel", key=i)
             is_click = st_mui_dialog("Cancel Reservation", "Are you sure to cancel this reservation?", key=i, button_txt="Cancel Reservation")
             if is_click:
