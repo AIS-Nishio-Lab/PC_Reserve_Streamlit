@@ -117,6 +117,9 @@ def check_reserve(name, pc_name, date_start, time_start, date_end, time_end):
     """
     dt_start = datetime.datetime.combine(date_start, time_start)
     dt_end = datetime.datetime.combine(date_end, time_end)
+    # 時間の差分を時間単位で計算
+    diff = (dt_end - dt_start).total_seconds() / 3600
+    is_one_day = diff <= 24
     # pc_reserves.csvの予約日時と重複していないか確認
     # 重複は、PC名が同じかつ、予約開始日時が予約終了日時よりも前かつ、予約終了日時が予約開始日時よりも後
     df_reserve = pd.read_csv("pc_reserves.csv")
@@ -128,7 +131,10 @@ def check_reserve(name, pc_name, date_start, time_start, date_end, time_end):
         return False
     # 同じ予約者がもうすでに予約していないか確認
     df_reserve_check = df_reserve[(df_reserve["User"] == name) & (df_reserve["Start"] < dt_end) & (dt_start < df_reserve["End"])]
-    if len(df_reserve_check) > 0 and name != "Nishio":
+    if len(df_reserve_check) > 0 and not is_one_day and name != "Nishio":
+        st.error("You already have other reservation.")
+        return False
+    if len(df_reserve_check) > 1 and name != "Nishio":
         st.error("You already have other reservation.")
         return False
     return True
