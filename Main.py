@@ -131,10 +131,10 @@ def check_reserve(name, pc_name, date_start, time_start, date_end, time_end):
         return False
     # 同じ予約者がもうすでに予約していないか確認
     df_reserve_check = df_reserve[(df_reserve["User"] == name) & (df_reserve["Start"] < dt_end) & (dt_start < df_reserve["End"])]
-    if len(df_reserve_check) > 0 and not is_one_day and name != "Nishio":
+    if len(df_reserve_check["PC"].unique()) > 0 and not is_one_day and name != "Nishio":
         st.error("You already have other reservation.")
         return False
-    if len(df_reserve_check) > 1 and name != "Nishio":
+    if len(df_reserve_check["PC"].unique()) > 1 and name != "Nishio":
         st.error("You already have other reservation.")
         return False
     return True
