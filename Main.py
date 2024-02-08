@@ -70,7 +70,7 @@ def reserve_form():
         return
     name = st.selectbox(
             'Input your name',
-            ('Nishio', 'Wang.S', 'Rashid', 'Wang.J', 'Saida', 
+            ('Nishio', 'Wang.S', 'Rashid', 'Wang.J', 'Yo, 'Saida', 
              'Katabira', 'Nakamizo', 'Matono',
              'Okuda', 'Taki', 'Sato', 'Watanabe'),
             index=None, placeholder="Select your name")
