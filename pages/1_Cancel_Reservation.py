@@ -12,7 +12,7 @@ from PIL import Image
 import os
 import sys
 sys.path.append(os.pardir)
-import git_file
+from spred_sheet_manager import read_spreadsheet, update_spreadsheet
 
 def show_cancel():
     name = st.selectbox(
@@ -25,6 +25,7 @@ def show_cancel():
         st.warning("Please select your name.")
         return
     # pc_reserves.csvの読み込み
+    read_spreadsheet(is_use_cache=False)
     df_reserve = pd.read_csv("pc_reserves.csv")
     df_reserve["Start"] = pd.to_datetime(df_reserve["Start"]).dt.tz_localize('Asia/Tokyo')
     df_reserve["End"] = pd.to_datetime(df_reserve["End"]).dt.tz_localize('Asia/Tokyo')
@@ -72,7 +73,7 @@ def cancel(row):
     df_reserve["Start"] = df_reserve["Start"].dt.tz_localize(None)
     df_reserve["End"] = df_reserve["End"].dt.tz_localize(None)
     df_reserve.to_csv("pc_reserves.csv")
-    git_file.write_pc_reserve_csv_to_github()
+    update_spreadsheet()
     st.success("Successfully Canceled.")
 
 def login():
