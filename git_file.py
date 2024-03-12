@@ -4,7 +4,8 @@ def get_pc_reserve_csv_from_github():
     # リポジトリのURL
     repo_name = "AIS-Nishio-Lab/PC_Reserve_Streamlit"
     file_name = "pc_reserves.csv"
-    g = Github()
+    token = "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"
+    g = Github(token)
     repo = g.get_repo(repo_name)
     contents = repo.get_contents(file_name)
     content = contents.decoded_content.decode("utf-8")
@@ -16,7 +17,7 @@ def write_pc_reserve_csv_to_github():
     # リポジトリのURL
     repo_name = "AIS-Nishio-Lab/PC_Reserve_Streamlit"
     file_name = "pc_reserves.csv"
-    token = "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"
+    token = "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"
     g = Github(token)
     repo = g.get_repo(repo_name)
     # csvファイルをエンコード
