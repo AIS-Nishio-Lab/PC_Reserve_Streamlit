@@ -169,6 +169,7 @@ def reserve(name, pc_name, date_start, time_start, date_end, time_end):
     git_file.write_pc_reserve_csv_to_github()
     # 予約完了メッセージ
     st.success("Reserve Success!")
+    time.sleep(2)
 
 def show_calendar():
     # カレンダーを表示
@@ -218,4 +219,3 @@ if __name__ == '__main__':
         now_using()
         reserve_form()
         show_calendar()
-    
