@@ -16,6 +16,7 @@ def get_pc_reserve_csv_from_github():
     # 
     # dropboxに変更
     token = "sl.BxRJckAdb6RHl0NEY9-B7EtXXWEVjnIk9sFFCXh4-InU6r0BhSmbbMnmv_JQNgb8RINYpd2Mg21KgUS9VQ-SvPlCFM9vkYyRMxUoWAFxE_xD0vfExuORSbyCN90kKCRHl3QU-uWNAOR61uYdMnbC"
+    print(token)
     dbx = dropbox.Dropbox(token)
     with open('pc_reserves.csv', "wb") as f:
         metadata, res = dbx.files_download(path="/pc_reserves.csv")
