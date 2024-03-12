@@ -9,6 +9,7 @@ import yaml
 from yaml.loader import SafeLoader
 import time
 from PIL import Image
+import git_file
 
 def login():
     """ログイン処理
@@ -165,6 +166,7 @@ def reserve(name, pc_name, date_start, time_start, date_end, time_end):
     df_reserve = pd.concat([df_reserve, df], join='inner')
     df_reserve = df_reserve.reset_index(drop=True)
     df_reserve.to_csv("pc_reserves.csv")
+    git_file.write_pc_reserve_csv_to_github()
     # 予約完了メッセージ
     st.success("Reserve Success!")
 
@@ -212,6 +214,7 @@ if __name__ == '__main__':
     st.title("PC Reserve System") # タイトル
     is_logined, username = login()
     if is_logined:
+        git_file.get_pc_reserve_csv_from_github()
         now_using()
         reserve_form()
         show_calendar()
