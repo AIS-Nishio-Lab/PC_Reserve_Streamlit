@@ -9,11 +9,15 @@ import yaml
 from yaml.loader import SafeLoader
 import streamlit_authenticator as stauth
 from PIL import Image
+import os
+import sys
+sys.path.append(os.pardir)
+import git_file
 
 def show_cancel():
     name = st.selectbox(
             'Input your name',
-            ('Nishio', 'Wang.S', 'Rashid', 'Wang.J', 'Yo', 'Saida', 'Katabira', 'Nakamizo', 'Matono',
+            ('Nishio', 'Wang.S', 'Rashid', 'Wang.J', 'Saida', 'Katabira', 'Nakamizo', 'Matono',
              'Okuda', 'Taki', 'Sato', 'Watanabe'),
             index=None, placeholder="Select your name")
     # 名前が選択されていない場合は、warningを出す
@@ -68,6 +72,7 @@ def cancel(row):
     df_reserve["Start"] = df_reserve["Start"].dt.tz_localize(None)
     df_reserve["End"] = df_reserve["End"].dt.tz_localize(None)
     df_reserve.to_csv("pc_reserves.csv")
+    git_file.write_pc_reserve_csv_to_github()
     st.success("Successfully Canceled.")
 
 def login():
