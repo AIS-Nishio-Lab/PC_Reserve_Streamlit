@@ -9,7 +9,7 @@ import yaml
 from yaml.loader import SafeLoader
 import time
 from PIL import Image
-import git_file
+from spred_sheet_manager import read_spreadsheet, update_spreadsheet
 
 def login():
     """ログイン処理
@@ -43,6 +43,8 @@ def now_using():
         _type_: _description_
     """
     st.header("Current Using PC")
+    # df_reserve = pd.read_csv("pc_reserves.csv")
+    df_reserve = read_spreadsheet()
     df_reserve = pd.read_csv("pc_reserves.csv")
     df_reserve["Start"] = pd.to_datetime(df_reserve["Start"]).dt.tz_localize('Asia/Tokyo')
     df_reserve["End"] = pd.to_datetime(df_reserve["End"]).dt.tz_localize('Asia/Tokyo')
@@ -116,13 +118,15 @@ def check_reserve(name, pc_name, date_start, time_start, date_end, time_end):
     Returns:
         bool: 予約可能かどうか
     """
+    dt_now = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
     dt_start = datetime.datetime.combine(date_start, time_start)
     dt_end = datetime.datetime.combine(date_end, time_end)
     # 時間の差分を時間単位で計算
-    diff = (dt_end - dt_start).total_seconds() / 3600
+    diff = (dt_end.replace(tzinfo=ZoneInfo("Asia/Tokyo")) - dt_now).total_seconds() / 3600
     is_one_day = diff <= 24
     # pc_reserves.csvの予約日時と重複していないか確認
     # 重複は、PC名が同じかつ、予約開始日時が予約終了日時よりも前かつ、予約終了日時が予約開始日時よりも後
+    read_spreadsheet(is_use_cache=False)
     df_reserve = pd.read_csv("pc_reserves.csv")
     df_reserve["Start"] = pd.to_datetime(df_reserve["Start"])
     df_reserve["End"] = pd.to_datetime(df_reserve["End"])
@@ -132,10 +136,18 @@ def check_reserve(name, pc_name, date_start, time_start, date_end, time_end):
         return False
     # 同じ予約者がもうすでに予約していないか確認
     df_reserve_check = df_reserve[(df_reserve["User"] == name) & (df_reserve["Start"] < dt_end) & (dt_start < df_reserve["End"])]
-    if len(df_reserve_check["PC"].unique()) > 0 and not is_one_day and name != "Nishio":
+    # 同じ予約者がもうすでに、一日以上の予約をしているか確認
+    is_one_day2 = False
+    for index, row in df_reserve_check.iterrows():
+        if (row["End"].replace(tzinfo=ZoneInfo("Asia/Tokyo")) - dt_now).total_seconds() / 3600 <= 24:
+            is_one_day2 = True
+            break
+    # すでに二つ以上の予約をしている場合は、予約できない
+    if len(df_reserve_check["PC"].unique()) > 1 and name != "Nishio":
         st.error("You already have other reservation.")
         return False
-    if len(df_reserve_check["PC"].unique()) > 1 and name != "Nishio":
+    # すでに一つの予約があり、かつ、一日以上の予約をしている場合は、予約できない
+    if len(df_reserve_check["PC"].unique()) > 0 and not is_one_day and not is_one_day2 and name != "Nishio":
         st.error("You already have other reservation.")
         return False
     return True
@@ -165,15 +177,21 @@ def reserve(name, pc_name, date_start, time_start, date_end, time_end):
     df_reserve = pd.read_csv("pc_reserves.csv")
     df_reserve = pd.concat([df_reserve, df], join='inner')
     df_reserve = df_reserve.reset_index(drop=True)
+    # 100件以上の予約情報がある場合は、古い予約情報を削除
+    if df_reserve.shape[0]>100:
+        df_reserve = df_reserve.drop(range(10))
     df_reserve.to_csv("pc_reserves.csv")
-    git_file.write_pc_reserve_csv_to_github()
+    # print(df_reserve)
+    update_spreadsheet()
     # 予約完了メッセージ
     st.success("Reserve Success!")
-    time.sleep(2)
+    # time.sleep(2)
 
 def show_calendar():
     # カレンダーを表示
     st.header("Calendar")
+    # df_reserve = pd.read_csv("pc_reserves.csv")
+    df_reserve = read_spreadsheet()
     df_reserve = pd.read_csv("pc_reserves.csv")
     df_reserve["Start"] = pd.to_datetime(df_reserve["Start"])
     df_reserve["End"] = pd.to_datetime(df_reserve["End"])
@@ -215,7 +233,6 @@ if __name__ == '__main__':
     st.title("PC Reserve System") # タイトル
     is_logined, username = login()
     if is_logined:
-        git_file.get_pc_reserve_csv_from_github()
         now_using()
         reserve_form()
         show_calendar()
