@@ -174,7 +174,11 @@ def reserve(name, pc_name, date_start, time_start, date_end, time_end):
     dt_start = datetime.datetime.combine(date_start, time_start)
     dt_end = datetime.datetime.combine(date_end, time_end)
     df = pd.DataFrame([[pc_name, name, dt_start, dt_end]], columns=["PC", "User", "Start", "End"])
+    df["Start"] = pd.to_datetime(df["Start"])
+    df["End"] = pd.to_datetime(df["End"])
     df_reserve = pd.read_csv("pc_reserves.csv")
+    df_reserve["Start"] = pd.to_datetime(df_reserve["Start"])
+    df_reserve["End"] = pd.to_datetime(df_reserve["End"])
     df_reserve = pd.concat([df_reserve, df], join='inner')
     df_reserve = df_reserve.reset_index(drop=True)
     # 100件以上の予約情報がある場合は、古い予約情報を削除
