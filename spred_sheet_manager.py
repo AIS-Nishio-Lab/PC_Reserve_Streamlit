@@ -14,9 +14,12 @@ def read_spreadsheet(is_use_cache=True):
     df.iloc[:,3] = pd.to_datetime(df.iloc[:,3])
     df.iloc[:,4] = pd.to_datetime(df.iloc[:,4])
     df.to_csv("pc_reserves.csv", index=False)
+    return df
 
 def update_spreadsheet():
     conn = st.connection("gsheets", type=GSheetsConnection)
     df = pd.read_csv("pc_reserves.csv")
+    df.iloc[:,3] = pd.to_datetime(df.iloc[:,3])
+    df.iloc[:,4] = pd.to_datetime(df.iloc[:,4])
     conn.update(data=df)
     st.cache_data.clear()
