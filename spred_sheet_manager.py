@@ -11,8 +11,8 @@ def read_spreadsheet(is_use_cache=True):
     # column1 to int
     df.iloc[:,0] = df.iloc[:,0].astype(int)
     # start column to timestamp
-    df.iloc[:,3] = pd.to_datetime(df.iloc[:,3])
-    df.iloc[:,4] = pd.to_datetime(df.iloc[:,4])
+    #df.iloc[:,3] = pd.to_datetime(df.iloc[:,3])
+    #df.iloc[:,4] = pd.to_datetime(df.iloc[:,4])
     df.to_csv("pc_reserves.csv", index=False)
 
 def update_spreadsheet():
