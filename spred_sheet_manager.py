@@ -24,7 +24,7 @@ def read_spreadsheet(is_use_cache=True):
         _end_time = pd.Timestamp(int(df.iloc[i,8]), int(df.iloc[i,9]), int(df.iloc[i,10]), int(df.iloc[i,11]), int(df.iloc[i,12]))
         _list.append(_end_time)
         lists.append(_list)
-    df = pd.DataFrame(lists, columns=["No", "User", "PC", "Start Time", "End Time"])
+    df = pd.DataFrame(lists, columns=["No", "User", "PC", "Start", "End"])
     df.to_csv("pc_reserves.csv", index=False)
     return df
 
