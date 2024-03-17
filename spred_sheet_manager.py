@@ -24,7 +24,7 @@ def read_spreadsheet(is_use_cache=True):
         _end_time = pd.Timestamp(int(df.iloc[i,8]), int(df.iloc[i,9]), int(df.iloc[i,10]), int(df.iloc[i,11]), int(df.iloc[i,12]))
         _list.append(_end_time)
         lists.append(_list)
-    df = pd.DataFrame(lists, columns=["No", "User", "PC", "Start", "End"])
+    df = pd.DataFrame(lists, columns=["No", "PC", "User", "Start", "End"])
     df.to_csv("pc_reserves.csv", index=False)
     return df
 
@@ -33,7 +33,7 @@ def update_spreadsheet():
     df = pd.read_csv("pc_reserves.csv")
     df.iloc[:,3] = pd.to_datetime(df.iloc[:,3])
     df.iloc[:,4] = pd.to_datetime(df.iloc[:,4])
-    save_list = [["No", "User", "PC", "Start Year", "Start Month", "Start Day", "Start Hour", "Start Minute", "End Year", "End Month", "End Day", "End Hour", "End Minute"]]
+    save_list = [["No", "PC", "User", "Start Year", "Start Month", "Start Day", "Start Hour", "Start Minute", "End Year", "End Month", "End Day", "End Hour", "End Minute"]]
     for i in range(df.shape[0]):
         _list = []
         _list.append(int(df.iloc[i,0]))
