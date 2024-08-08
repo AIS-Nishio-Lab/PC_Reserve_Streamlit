@@ -8,7 +8,7 @@ streamlit-nested-layout==0.1.1
 st-gsheets-connection==0.0.3
 streamlit==1.36.0
 numpy==1.26.4
-pandas
+pandas==2.2.2
 pillow
 pygithub
 dropbox
