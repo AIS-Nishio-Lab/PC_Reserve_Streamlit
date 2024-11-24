@@ -102,6 +102,15 @@ def reserve_form():
     if dt_start > dt_end:
         st.warning("Start date is later than end date.")
         return
+    # Abaqusの予約の場合、最大で1週間までの予約が可能
+    if pc_name == "Abaqus" and (dt_end - dt_start).days > 7 and name != "Nishio":
+        st.warning("You can reserve Abaqus for up to 1 week.")
+        return
+    # Abaqus以外は、最大で30日までの予約が可能
+    # 基本的に、カレンダーで押せないようにはしているが、直接入力で抜けることが可能なため、再度確認
+    if (dt_end - dt_start).days > 30 and name != "Nishio":
+        st.warning("You can reserve for up to 30 days.")
+        return
     is_click = st.button("Reserve")
     if is_click:
         reserve(name, pc_name, date_start, time_start, date_end, time_end)
