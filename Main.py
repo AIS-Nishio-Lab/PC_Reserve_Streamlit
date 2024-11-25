@@ -144,10 +144,10 @@ def check_reserve(name, pc_name, date_start, time_start, date_end, time_end):
     if len(df_reserve_check) > 0:
         st.error("This PC is already reserved.")
         return False
+    if pc_name=="Abaqus":
+        return True
     # 同じ予約者がもうすでに予約していないか確認
     df_reserve_check = df_reserve[(df_reserve["User"] == name) & (df_reserve["Start"] < dt_end) & (dt_start < df_reserve["End"])]
-    # pc_nameがAbaqusのものを省く
-    df_reserve_check = df_reserve_check[df_reserve_check["PC"] != "Abaqus"]
     # 同じ予約者がもうすでに、一日以上の予約をしているか確認
     is_one_day2 = False
     for index, row in df_reserve_check.iterrows():
