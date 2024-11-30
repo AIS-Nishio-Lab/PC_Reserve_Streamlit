@@ -17,8 +17,10 @@ from spred_sheet_manager import read_spreadsheet, update_spreadsheet
 def show_cancel():
     name = st.selectbox(
             'Input your name',
-            ('Nishio', 'Wang.S', 'Rashid', 'Wang.J', 'Saida', 'Katabira', 'Nakamizo', 'Matono',
-             'Okuda', 'Taki', 'Sato', 'Watanabe'),
+            ('Nishio', 'Wang.S', 'Rashid', 'Wang.J', 'Yo', 'Saida', 
+             'Nakamizo', 'Matono',
+             'Okuda', 'Taki', 'Sato', 
+             'Ashina', 'Saito'),
             index=None, placeholder="Select your name")
     # 名前が選択されていない場合は、warningを出す
     if name == None:
