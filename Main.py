@@ -73,10 +73,12 @@ def reserve_form():
         return
     name = st.selectbox(
             'Input your name',
-            ('Nishio', 'Wang.S', 'Rashid', 'Wang.J', 'Yo', 'Saida', 
+            ('Nishio', 'Wang.S', 'Rashid', 'Wang.J', 'Yu', 'Saida', 
              'Nakamizo', 'Matono',
-             'Okuda', 'Taki', 'Sato', 
-             'Ashina', 'Saito'),
+             'Wang.Z',
+             'Sato', 
+             'Ashina', 'Saito', 'Namikawa',
+             'Takahara', 'Hosaka'),
             index=None, placeholder="Select your name")
     df_pcs_name = pd.read_csv("pc_specs.csv")["PC"].values
     pc_name = st.selectbox('Input PC name', df_pcs_name,
